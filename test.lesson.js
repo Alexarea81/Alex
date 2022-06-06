@@ -6,4 +6,4 @@ application.get("/stations", (request, response) => {
  response.json(JSON.parse(stations));
 })
 
-application.listen(8081, () => console.log("ok"))
+application.listen(8081, () => console.log("Good"))
