@@ -1,12 +1,1 @@
-[
-    {
-        "id": 1,
-        "station": "New",
-        "status": true
-    },
-    {
-        "id": 2,
-        "station": "New",
-        "status": true
-    }
-]
+[{"id":1,"station":"New","status":true},{"id":2,"station":"New1","status":true},{"id":3,"station":"New2","status":false}]

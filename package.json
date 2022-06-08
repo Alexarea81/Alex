@@ -4,11 +4,13 @@
   "description": "",
   "main": "test.lesson.js",
   "scripts": {
+    "start": "node test.lesson.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "fs.promises": "^0.1.2"
   }
 }
