@@ -50,9 +50,11 @@ application.get('/stations/:id', (request, response) => {
 application.put('/stations/:id', (req, res) => {    
     console.log(req.body)
     fs.readFile('./stations.json').then(data => {
-        const stationArray = JSON.parse(data);
-
-        fs.writeFile('./stations.json', JSON.stringify(newArray)).then(() =>{
+        const arrayFromFile = JSON.parse(data);
+        const resultArray = arrayFromFile.map(
+        s => s.id == req.params.id ? {...s, ...req.body } : s
+        )
+        fs.writeFile('./stations.json', JSON.stringify(resultArray)).then(() =>{
             res.sendStatus(200);
         })
     }).catch(err => console.error(err));
