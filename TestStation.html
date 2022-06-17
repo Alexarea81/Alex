@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STATIONS</title>
+    
+    <script type="application/javascript"> 
+     
+        async function refreshStations() {
+
+            let response = await fetch("http://localhost:8085/stations")
+            let stations = await response.json()
+
+            for (let i = 0; i < stations.length; i++) {           
+
+             let tr = document.createElement("tr")
+             let tdId = document.createElement("td")
+             let tdAdress = document.createElement("td")
+             let tdStatus = document.createElement("td")
+             let bt = document.createElement('button')
+
+             tdId.innerText = stations[i].id 
+             tdAdress.innerText = stations[i].adress
+             tdStatus.innerText = stations[i].status 
+             bt.onclick = function() {myButton(stations[i].id)}
+
+             tr.appendChild(tdId)
+             tr.appendChild(tdAdress)
+             tr.appendChild(tdStatus)
+             tr.appendChild(bt)
+
+            var myStations = document.getElementById("table")
+             myStations.appendChild(tr)  
+              }
+            
+            }
+
+           function myButton(id) {
+            fetch('http://localhost:8085/stations/' + id, {method: 'DELETE'}).then(res => console.log(res))
+            }
+           
+             
+</script>   
+</head>
+
+<body>
+    <button onclick="refreshStations()">Add station</button>
+    
+    <table id="table">
+      <tr>
+      <th>id</th>
+      <th>address</th>
+      <th>status</th>
+      <th>delete</th>
+      </tr>
+    </table>
+    <form action="" method="post">
+      <label for="POST-name">Name:</label>
+      <input id="POST-name" type="text" name="name">
+      <input type="submit" value="Save">
+    </form>
+</body>
+</html>

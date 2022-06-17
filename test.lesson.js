@@ -4,8 +4,16 @@ const res = require("express/lib/response");
 const ex = require('express');
 const { param } = require("express/lib/request");
 const application = ex();
+const cors = require('cors');
 
-application.use(ex.json())
+application.use(ex.json());
+
+application.use(cors());
+application.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
 application.get('/stations', (request, response) => {
     fs.readFile('./stations.json').then(stations => {

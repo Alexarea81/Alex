@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tables</title>
+    <style>
+      body {
+        text-align: left;
+        margin-top: 20px;
+        color: #fff;
+        background: #333;}
+      
+      table {
+        border-collapse:collapse;
+        width: 400px;
+        margin-left: 10px;
+        height: 30px;
+      
+        
+      }
+
+        td {
+        width: 2000px;
+        height: 30px;
+        border: 1px solid rgb(85, 85, 85);
+        cursor: pointer;}
+
+
+      </style>
+    <script type="application/javascript">
+
+        async function refreshStations() {
+let response = await fetch("http://localhost:8085/stations")
+let stations = await response.json()
+console.log(stations) }
+
+      function changeText(ev) {
+        if (ev.getAttribute("data-show") === "true") {
+          var stationUL = document.getElementById("divEl");
+          stationUL.innerText = "СЛАВА УКРАЇНІ!!!";
+          ev.setAttribute("data-show", "false");
+        } else {
+          var stationUL = document.getElementById("divEl");
+          stationUL.innerText = "ГЕРОЯМ СЛАВА!!!";
+          ev.setAttribute("data-show", "true");
+        }
+      }
+
+      function myclickSt() {
+        var stationUL = document.getElementById("stations");
+        var newStation = document.createElement("p");
+        newStation.innerText = "My new Station";
+        stationUL.append(newStation);
+      }
+
+      function deleteStations() {
+        var stationUL = document.getElementById("stations");
+        var newStation = document.createElement("p");
+        stationUL.remove(newStation);
+      }
+
+    </script>
+  </head>
+  <body>
+    <div id="divEl" ><font size="5" color="yellow">Text</font></div>
+    <button onclick="myclickSt()"><img src="THSd.gif " /></button>
+    <button onclick="changeText(this)" data-show="true">
+      <img src="8K5s.gif " />for change Text</button>
+    <button onclick="deleteStations()">Delete station</button>
+    
+    <div id="stations">
+      <p><font size="5" color="FF0000">Create Station</font></p>
+    </div>
+   
+    <table>
+      <td></td>
+      <td></td>
+    </table>
+  </body>
+</html>
