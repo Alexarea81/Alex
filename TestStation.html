@@ -19,17 +19,24 @@
              let tdId = document.createElement("td")
              let tdAdress = document.createElement("td")
              let tdStatus = document.createElement("td")
-             let bt = document.createElement('button')
+             let tdButtonDelete = document.createElement('button')
+             let tdButtonUpdate = document.createElement('button')
+             tdButtonDelete.innerText='Delete'
+             tdButtonDelete.onclick = function() {myButton(stations[i].id)}
+             tdButtonUpdate.innerText='Update'
+             tdButtonUpdate.onclick = function() {
+               Update(stations[i])
+            }
 
              tdId.innerText = stations[i].id 
              tdAdress.innerText = stations[i].adress
              tdStatus.innerText = stations[i].status 
-             bt.onclick = function() {myButton(stations[i].id)}
-
+            
              tr.appendChild(tdId)
              tr.appendChild(tdAdress)
              tr.appendChild(tdStatus)
-             tr.appendChild(bt)
+             tr.appendChild(tdButtonDelete)
+             tr.appendChild(tdButtonUpdate)
 
             var myStations = document.getElementById("table")
              myStations.appendChild(tr)  
@@ -37,17 +44,77 @@
             
             }
 
-           function myButton(id) {
-            fetch('http://localhost:8085/stations/' + id, {method: 'DELETE'}).then(res => console.log(res))
+            
+
+            function myButton(id) {
+              fetch('http://localhost:8085/stations/' + id, {method: 'DELETE'}).then(res => console.log(res))
             }
+              
+            function Update(station) {
+              alert(JSON.stringify(station))
+              document.forms['NewStation'].elements['id'].value = station.id
+              document.forms['NewStation'].elements['adress'].value = station.adress
+              document.forms['NewStation'].elements['status'].value = station.status
+            } 
+
+
+            function onUpdate() {
+              const form = document.getElementById('NewStation')
+              const formData = new FormData(form)
+              let station = {}
+            for (let [key, value] of formData.entries()) {
+               station[key] = value}
+            
+            alert(JSON.stringify(station))
+            fetch('http://localhost:8085/stations/' + station.id, {
+              method: 'PUT',
+              body: JSON.stringify(station),
+              headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            })
+          }
+
            
-             
+           /* function addStation () {
+              const form = document.getElementById('form')
+
+              let newStation = {
+                id: '6', 
+                adress: 'Smith', 
+                status: 'true'
+              }; 
+
+              let response = fetch('http://localhost:8085/stations',{
+              
+              method: 'POST', headers: { 'Content-Type': 'application/json;charset=utf-8' }, 
+              body: JSON.stringify(newStation) }) 
+              let result = response.json() 
+              alert(result.message)
+            }*/
+            function createNewStation() {
+            const form = document.getElementById("newStation")
+            const formData = new FormData(form);
+            let resp = {}
+            for (let [key, value] of formData.entries()) {
+                resp[key] = value;
+            }
+            alert(formData.entries())
+            fetch("http://localhost:8085/stations", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+                body: JSON.stringify(resp)
+            }).then(res => {
+                console.log("Request complete! response:", res);
+            });
+        }
+
+         
 </script>   
 </head>
 
 <body>
     <button onclick="refreshStations()">Add station</button>
-    
+    <button onclick="createNewStation()">New station</button>
+    <button onclick="onUpdate()">onUpdate</button>
     <table id="table">
       <tr>
       <th>id</th>
@@ -56,10 +123,15 @@
       <th>delete</th>
       </tr>
     </table>
-    <form action="" method="post">
-      <label for="POST-name">Name:</label>
-      <input id="POST-name" type="text" name="name">
-      <input type="submit" value="Save">
-    </form>
+    <form id="NewStation" action="form" method="post">
+      <label for="idNew">Id:</label>
+      <input id="idNew" type="text" name="id">
+      <label for="adressNew">Adress:</label>
+      <input id="addresNew" type="text" name="adress">
+      <label for="statusNew">Status:</label>
+      <input id="statusNew" type="text" name="status">
+  </form>
 </body>
 </html>
+
+             
