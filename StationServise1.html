@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STATIONS</title>
+    <link rel="stylesheet" href="station.css">
+    <script src="station.js"></script>   
+</head>
+
+<body>
+  <h1 class="title"><dfn>My Stations</dfn></h1>
+    <button class="bt" onclick="refreshStations()" style="color:darkblue"><strong>Station List</strong></button>
+    <button class="bt" onclick="createNewStation()" style="color:darkblue"><strong>Create Station</strong></button>  
+
+    <table id="table">
+      <tr>
+       <th>Id</th>
+       <th>Address</th>
+       <th>Status</th>
+       <th></th>
+      </tr>
+
+      <tbody id="row">
+      </tbody>
+
+    </table>
+    <form id="NewStation" action="form" method="POST">
+      <label for="POST-id">Id:</label>
+      <input id="POST-id" type="text" name="id" >
+      <label for="POST-adress">Adress:</label>
+      <input id="POST-adress" type="text" name="adress">
+      <label for="POST-status">Status:</label>
+      <input id="POST-status" type="text" name="status">
+      <input type="button" class="btn" style="color:darkblue" value="Save Update" onclick="onUpdate()">
+    </form>
+
+    <br></br>
+
+    <form id="SearchStation" action="form" method="GET">
+      <label for="search-id">Id:</label>
+      <input id="search-id" type="text" name="id" >
+      <input type="button" class="btn" style="color:darkblue" value="Search Station" onclick="searchStation()">
+</body>
+</html>
