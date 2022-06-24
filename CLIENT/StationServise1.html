@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STATIONS</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="station.css">
+    <script type="application/javascript" src="station.js"></script> 
+</head>
+
+<body>
+  <h1 class="title"><dfn>Stations Web-Service</dfn></h1>
+
+  <div class="bsw">
+   <button class="btn btn-outline-primary" onclick="refreshStations()" style="color:maroon"><strong>Show Stations</strong></button>
+  </div>
+
+  <div class="bsr">
+   <input type="button" class="btn btn-outline-primary" style="color:maroon" value="Search Station" onclick="searchStation()">
+  </div>
+
+  <div class="cont">
+   <form class="form" id="SearchStation" action="form" method="GET">
+     <label for="search-id">Id:</label>
+     <input class="inp" id="search-id" type="text" name="id" >
+   </form>  
+  </div>
+
+    <table id="table" class="table table-hover">
+      <tr class="table-dark">
+        <th class="id">Id</th>
+        <th class="ad">Adress</th>
+        <th class="st">Status</th>
+        <th class="du"></th>
+      </tr>
+      <tbody id="row"></tbody>
+    </table>
+    
+    <form id="NewStation" action="form" method="POST">
+      <label for="POST-id">Id:</label>
+       <input class="inp" id="POST-id" type="text" name="id" >
+      <label for="POST-adress">Adress:</label>
+       <input class="inp1" id="POST-adress" type="text" name="adress">
+      <label for="POST-status">Status:</label>
+       <input class="inp" id="POST-status" type="text" name="status">
+       <input type="reset" class="btn btn-outline-primary" style="color:maroon" value="Clear">
+       <input type="button" class="btn btn-outline-primary" style="color:maroon" value="Save Update" onclick="onUpdate()">
+    </form>
+
+    <button class="btn btn-outline-primary" onclick="createNewStation()" style="color:maroon"><strong>Create Station</strong></button>
+
+    <footer>
+      <div class="foot">
+        <p><strong>Contact Us:</strong></p>
+        <li class="list-group-item">ConceptArea</li>
+        <li class="list-group-item">Drohobych</li>
+        <li class="list-group-item">conceptarea@gmail.com</li>
+        <li class="list-group-item">tel.: 911</li>
+      </div> 
+    </footer>
+</body>
+</html>

@@ -1,11 +1,12 @@
 const { response } = require("express")
 
+
 async function refreshStations() {
+  var myRow = document.getElementById('row')
+  myRow.innerHTML = ""
 
     let response = await fetch('http:localhost:8085/stations')
     let stations = await response.json()
-    var myRow = document.getElementById('row')
-    myRow.innerHTML = ""
 
     for (let i = 0; i < stations.length; i++) {    
 
@@ -18,10 +19,12 @@ async function refreshStations() {
 
      tdButtonDelete.innerText='Delete'
      tdButtonDelete.style.color='red'
+     tdButtonDelete.style.borderRadius='10px'
      tdButtonDelete.onclick = function() {myButton(stations[i].id)}
 
      tdButtonUpdate.innerText='Update'
      tdButtonUpdate.style.color='green'
+     tdButtonUpdate.style.borderRadius='10px'
      tdButtonUpdate.onclick = function() { Update(stations[i])}
 
      tdId.innerText = stations[i].id 
@@ -33,9 +36,7 @@ async function refreshStations() {
      tr.appendChild(tdStatus)
      tr.appendChild(tdButtonDelete)
      tr.appendChild(tdButtonUpdate)
-    myRow.appendChild(tr)}
-    // var myStations = document.getElementById("table")
-    // myStations.appendChild(tr)
+     myRow.appendChild(tr)}
     }
        
 
@@ -73,7 +74,6 @@ async function refreshStations() {
     for (let [key, value] of formData.entries()) {
         resp[key] = value;
     }
-    alert(formData.entries())
     fetch("http:localhost:8085/stations", {
         method: "POST",
         headers: {'Content-Type': 'application/json'},
@@ -88,18 +88,19 @@ async function refreshStations() {
   async function searchStation() {
     let response = await fetch('http:localhost:8085/stations')
     let stations = await response.json()
-
     const form = document.getElementById("SearchStation")
     const formData = new FormData(form)
     let result = document.getElementById('search-id').value
     var id = Number(result) 
-    if (id === 0) {alert('Please enter a valid ID\nID begins with "1"')}
-
     const station = stations.find( el => el.id == id)
+    var tdId = document.querySelector('td')
+    tdId.style.color = 'aqua'
     console.log(station)
+    if (id == 0) {swal("Please enter a valid ID", "ID begins with '1' not '-' and not 'text'", "warning")}
+     else if (!station) {swal("Not find ID", "Please enter a valid ID", "info")}
+     form.reset()
 
-
-     
+   
     document.forms['NewStation'].elements['id'].value = station.id
     document.forms['NewStation'].elements['adress'].value = station.adress
     document.forms['NewStation'].elements['status'].value = station.status
