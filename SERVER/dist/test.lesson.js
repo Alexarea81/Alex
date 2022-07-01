@@ -16,6 +16,21 @@ var ex = require('express');
 var param = require("express/lib/request").param;
 var application = ex();
 var cors = require('cors');
+var mysql = require('mysql');
+var connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'alex',
+    password: '1234',
+    database: 'newradalarm'
+});
+connection.connect(function (error) {
+    if (error) {
+        console.error(error);
+    }
+    else {
+        console.log('Successfully connected to DB');
+    }
+});
 application.use(ex.json());
 application.use(cors());
 application.use(function (req, res, next) {
@@ -23,22 +38,26 @@ application.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-application.get('/stations', function (request, response) {
-    fs.readFile('./stations.json').then(function (stations) {
-        response.json(JSON.parse(stations));
+application.get('/stations', function (req, res) {
+    connection.query('SELECT * FROM station', function (err, data) {
+        if (err) {
+            console.error(err);
+        }
+        res.send(data);
     });
 });
 application.post('/stations', function (req, res) {
-    console.log('here');
-    var newStation = req.body;
-    console.log(newStation);
-    fs.readFile('./stations.json').then(function (data) {
-        var stationArray = JSON.parse(data);
-        stationArray.push(newStation);
-        fs.writeFile('./stations.json', JSON.stringify(stationArray)).then(function () {
-            res.sendStatus(200);
+    connection.query('INSERT INTO station (address, status) values (?, ?)', [req.body.address, req.body.status], function (err, data) {
+        if (err) {
+            console.error(err);
+        }
+        connection.query('SELECT * FROM station WHERE id = ?', [data.insertId], function (err, data) {
+            if (err) {
+                console.error(err);
+            }
+            res.send(data);
         });
-    }).catch(function (err) { return console.error(err); });
+    });
 });
 application.delete('/stations/:id', function (req, res) {
     fs.readFile('./stations.json').then(function (data) {

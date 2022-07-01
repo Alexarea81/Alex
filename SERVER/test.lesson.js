@@ -6,6 +6,24 @@ const { param } = require("express/lib/request");
 const application = ex();
 const cors = require('cors');
 
+const mysql = require('mysql');
+
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'alex',
+    password: '1234',
+    database: 'newradalarm'
+});
+
+connection.connect(function(error) {
+    if (error) {
+        console.error(error);
+    } else {
+        console.log('Successfully connected to DB');
+    }
+});
+
+
 application.use(ex.json());
 
 application.use(cors());
@@ -15,24 +33,30 @@ application.use(function(req, res, next) {
     next();
 });
 
-application.get('/stations', (request, response) => {
-    fs.readFile('./stations.json').then(stations => {
-        response.json(JSON.parse(stations));
-    })
-})
+application.get('/stations', (req, res) => {
+    connection.query('SELECT * FROM station', (err, data) => {
+         if (err) {
+            console.error(err);
+         }
+         res.send(data);
+    });
+    });
 
 application.post('/stations', (req, res) => {
-    console.log('here')
-    const newStation = req.body;
-    console.log(newStation);
-    fs.readFile('./stations.json').then(data => {
-        const stationArray = JSON.parse(data);
-        stationArray.push(newStation);
-        fs.writeFile('./stations.json', JSON.stringify(stationArray)).then(() =>{
-            res.sendStatus(200);
-        })
-    }).catch(err => console.error(err));
-});
+    connection.query('INSERT INTO station (address, status) values (?, ?)',
+      [req.body.address, req.body.status], (err, data) => {
+    if (err) {
+        console.error(err);
+    }
+    connection.query('SELECT * FROM station WHERE id = ?',
+      [data.insertId], (err, data) => {
+        if (err) {
+            console.error(err);  
+        }
+        res.send(data);
+      });    
+   });
+}); 
 
 
 application.delete('/stations/:id', (req, res) => {    
@@ -66,6 +90,8 @@ application.put('/stations/:id', (req, res) => {
         })
     }).catch(err => console.error(err));
 });
+
+
 
 
 application.listen(8085, () => console.log("Good Lesson"));
