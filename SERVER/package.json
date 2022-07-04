@@ -2,10 +2,10 @@
   "name": "test",
   "version": "1.0.0",
   "description": "",
-  "main": "test.lesson.js",
+  "main": "test.lesson.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "rm -rf ./build && npm run build && node dist/test.lesson.js",
+    "start": "rm -rf ./dist && npm run build && node dist/test.lesson.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -17,9 +17,11 @@
     "fs.promises": "^0.1.2",
     "mysql": "^2.18.1",
     "sweetalert": "^2.1.2",
-    "sweetalert2": "^11.4.18"
+    "sweetalert2": "^11.4.18",
+    "typeorm": "^0.3.7"
   },
   "devDependencies": {
+    "@types/node": "^18.0.1",
     "typescript": "^4.7.4"
   }
 }
